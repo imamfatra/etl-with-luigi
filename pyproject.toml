@@ -1,0 +1,15 @@
+[project]
+name = "etl-with-luigi-2"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "luigi",
+    "pandas>=2.3.0",
+    "sqlalchemy==2.0.41",
+    "psycopg2-binary==2.9.10",
+    "requests==2.32.4",
+    "beautifulsoup4==4.13.4",
+    "tqdm",
+]
