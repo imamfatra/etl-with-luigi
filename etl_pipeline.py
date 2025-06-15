@@ -13,11 +13,16 @@ from tqdm import tqdm
 from bs4 import BeautifulSoup
 from sqlalchemy import text
 
+log_dir = "./logs"
+os.makedirs(log_dir, exist_ok=True)
+
 logging.basicConfig(
+    filename=os.path.join(log_dir, 'luigi_info.log'),  # simpan log standar
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s"
 )
-logger = logging.getLogger('luigi-interface')
+
+logger = logging.getLogger()
 
 class HashMixin(luigi.Task):
     def _get_input_hash_path(self):
@@ -300,7 +305,12 @@ class ScrapeLoadData(HashMixin, luigi.Task):
         return luigi.LocalTarget("data/load/scrape_data_load.json")
 
 def main():
-    luigi.build([DBLoadData(), ScrapeLoadData()], local_scheduler=True)
+    # luigi.build([DBLoadData(), ScrapeLoadData()], local_scheduler=True)
+    luigi.build(
+        [DBLoadData(), ScrapeLoadData()],
+        workers=2
+    )
+
 
 if __name__ == "__main__":
     main()
